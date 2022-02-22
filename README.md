@@ -1,1 +1,1 @@
-# mutual-gaze-detection
+# Mutual Gaze Detection

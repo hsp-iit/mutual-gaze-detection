@@ -1,0 +1,5 @@
+pip
+numpy
+yarp
+pynput
+pandas

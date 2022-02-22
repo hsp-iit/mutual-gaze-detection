@@ -1,0 +1,5 @@
+pip
+numpy
+opencv-contrib-python
+yarp
+pandas

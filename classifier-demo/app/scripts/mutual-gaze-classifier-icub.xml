@@ -1,0 +1,82 @@
+<application>
+<name>mutual gaze classifier icub</name>
+<version>1.0</version>
+
+<!-- Modules -->
+	<module>
+		<name>yarpdev</name>
+		<parameters>--from /home/docky/apps/conf/RealSense_conf.ini</parameters>
+		<node>localhost</node>
+	</module>
+
+	<module>
+		<name>yarpOpenPose</name>
+		<parameters> --from /home/docky/apps/conf/yarpOpenPose.ini</parameters>
+		<node>localhost</node>
+	</module>
+
+	<module>
+		<name>classifier.py</name>
+		<parameters>--from /home/docky/robotology-build/share/ICUBcontrib/contexts/mutual-gaze-classifier-demo/classifier_conf.ini</parameters>
+		<deployer>python3.6</deployer>
+		<node>localhost</node>
+	</module>
+
+	<module>
+		<name>yarpview</name>
+		<parameters>--name /view/rgb --w 640 --h 480</parameters>
+		<node>localhost</node>
+	</module>
+
+	<module>
+		<name>yarpview</name>
+		<parameters>--name /view/skeleton --w 640 --h 480</parameters>
+		<node>localhost</node>
+	</module>
+
+	<module>
+	  	<name>yarpview</name>
+	  	<parameters>--name /view/eyecontact --w 640 --h 480</parameters>
+	  	<node>localhost</node>
+	</module>
+
+<!-- Connections -->
+
+	<connection>
+		<from>/icub/camcalib/right/out</from>
+		<to>/view/rgb</to>
+		<protocol>mjpeg</protocol>
+	</connection>
+
+
+	<connection>
+		<from>/icub/camcalib/right/out</from>
+		<to>/yarpOpenPose/image:i</to>
+		<protocol>mjpeg</protocol>
+	</connection>
+
+	<connection>
+		<from>/yarpOpenPose/image:o</from>
+		<to>/view/skeleton</to>
+		<protocol>mjpeg</protocol>
+	</connection>
+
+	<connection>
+		<from>/icub/camcalib/right/out</from>
+		<to>/classifier/image:i</to>
+		<protocol>mjpeg</protocol>
+	</connection>
+
+	<connection>
+		<from>/yarpOpenPose/target:o</from>
+		<to>/classifier/data:i</to>
+	</connection>
+
+	<connection>
+		<from>/classifier/image:o</from>
+		<to>/view/eyecontact</to>
+		<protocol>mjpeg</protocol>
+	</connection>
+
+</application>
+
